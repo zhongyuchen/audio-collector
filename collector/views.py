@@ -1,8 +1,35 @@
 from django.shortcuts import render
 
 # Create your views here.
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import login,logout,authenticate
+from django.urls import reverse
+from django.contrib.auth.decorators import login_required
 
 
 def index(request):
     return render(request, "index.html", )
+
+
+# def signup(request):
+#     if request.method != 'POST':
+#         form = UserCreationForm()
+#     else:
+#         form = UserCreationForm(data=request.POST)
+#
+#         if form.is_valid():
+#             new_user = form.save()
+#             authenticated_user = authenticate(username=new_user.username,
+#                                               password=request.POST['password1'])
+#             login(request, authenticated_user)
+#             return HttpResponseRedirect(reverse('collector:index'))
+#     context={'form': form}
+#
+#     return render(request, 'signup.html', context)
+#
+#
+# @login_required
+# def signout(request):
+#     logout(request)
+#     return HttpResponseRedirect(reverse('recorder:index'))
