@@ -23,13 +23,29 @@
 
         <!-- links -->
       <ul class="right hide-on-med-and-down">
-        <li><a href="{% url 'admin:index' %}"><i class="material-icons">security</i></a></li>
+          <li><a href="{% url 'admin:index' %}"><i class="material-icons">security</i></a></li>
+          {% if user.is_authenticated %}
+            <li><a href="{% url 'collector:signout' %}"><i class="material-icons">close</i></a></li>
+          {% else %}
+            <li><a href="{% url 'collector:signup' %}"><i class="material-icons">person_add</i></a></li>
+            <li><a href="{% url 'collector:signin' %}"><i class="material-icons">person_outline</i></a></li>
+          {% endif %}
+          <li><a href="{% url 'collector:recorder' %}"><i class="material-icons">keyboard_voice</i></a></li>
       </ul>
+
 
         <!-- sidenav links -->
       <ul id="nav-mobile" class="sidenav">
           <li><a href="{% url 'admin:index' %}"><i class="material-icons">security</i>Admin</a></li>
+                {% if user.is_authenticated %}
+            <li><a href="{% url 'collector:signout' %}"><i class="material-icons">close</i>Sign Out</a></li>
+          {% else %}
+            <li><a href="{% url 'collector:signup' %}"><i class="material-icons">person_add</i>Sign Up</a></li>
+            <li><a href="{% url 'collector:signin' %}"><i class="material-icons">person_outline</i>Sign In</a></li>
+          {% endif %}
+          <li><a href="{% url 'collector:recorder' %}"><i class="material-icons">keyboard_voice</i>Recorder</a></li>
       </ul>
+
         <!-- sidenav menu button -->
       <a href="" data-target="nav-mobile" class="sidenav-trigger right">
           <i class="material-icons">menu</i>

@@ -28,8 +28,15 @@ python manage.py migrate
 MySQL -> Django
 ```commandline
 python manage.py inspectdb > collector/models.py
+python manage.py inspectdb > users/models.py
+
 ```
 
 ```commandline
 python manage.py createsuperuser
 ```
+
+```commandline
+python manage.py startapp users
+```
+
