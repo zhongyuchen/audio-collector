@@ -11,7 +11,6 @@ Audio collecting website for building a dataset for Digital Signal Processing co
 ```commandline
 django-admin startproject audio_collector
 python manage.py startapp collector
-python manage.py runserver
 ```
 
 Let Django builds basic tables in MySQL
@@ -19,17 +18,15 @@ Let Django builds basic tables in MySQL
 python manage.py migrate
 ```
 
-Django -> MySQL
+Django models -> MySQL tables
 ```commandline
 python manage.py makemigrations collector
 python manage.py migrate
 ```
 
-MySQL -> Django
+MySQL tables -> Django models
 ```commandline
 python manage.py inspectdb > collector/models.py
-python manage.py inspectdb > users/models.py
-
 ```
 
 ```commandline
@@ -37,6 +34,5 @@ python manage.py createsuperuser
 ```
 
 ```commandline
-python manage.py startapp users
+python manage.py runserver
 ```
-
