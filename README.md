@@ -13,12 +13,13 @@ Audio collecting website for building a dataset for Digital Signal Processing co
 
 * Record the following 20 words 20 times each (__400 in total__)
 
-|           |           |           |           |                       |
-| ------ | ------ | ------ | ------- | ------- |
-| 数字    | 语音   | 语言   | 识别     | 中国    |
-| 总工    | 北京   | 背景   | 上海     | 商行    |
-| 复旦    | 饭店   | Speech | Speaker | Signal  |
-| Process | Print | Open   | Close   | Project |
+|  00    |   01  |    02  |   03  |    04    |    05 |   06   |  07   |    08  |    09    |
+| ------ | ------ | ------ | ------- | ------- |------ | ------ | ------ | ------- | ------- |
+| 数字    | 语音   | 语言   | 识别     | 中国    | 总工    | 北京   | 背景   | 上海     | 商行    |
+
+|  10    |   11  |    12  |   13  |    14    |    15 |   16   |  17   |    18  |    19    |
+| ------ | ------ | ------ | ------- | ------- |------ | ------ | ------ | ------- | ------- |
+| 复旦    | 饭店   | Speech | Speaker | Signal  |Process | Print | Open   | Close   | Project |
 
 ## Parameters
 
