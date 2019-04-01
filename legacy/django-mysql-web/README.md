@@ -2,6 +2,14 @@
 
 Audio collecting website for building a dataset for Digital Signal Processing course project
 
+## Prerequisites
+
+```commandline
+pip install django==2.1.7
+pip install pymysql
+pip install base64
+```
+
 ## Todo
 
 * 随机出下一个词

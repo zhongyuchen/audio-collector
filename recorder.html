@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>
+        Audio Collector: Recorder
+    </title>
+    <link rel="icon" href="static/image/xiaohui.jpg"/>
+
+    <script type="text/javascript" src="static/js/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="static/js/init.js"></script>
+    <script type="text/javascript" src="static/js/materialize.min.js"></script>
+
+    <link type="text/css" href="static/css/materialize.min.css" rel="stylesheet" media="screen,projection"/>
+    <link type="text/css" href="static/css/style.css" rel="stylesheet" media="screen,projection"/>
+
+    <script src="static/js/recorder-core.js"></script>
+    <script src="static/js/waveview.js"></script>
+    <script src="static/js/wav.js"></script>
+    <script src="static/js/d3.min.js"></script>
+</head>
+<body>
+  <nav class="teal lighten-3" role="navigation">
+    <div class="nav-wrapper container">
+        <!-- logo -->
+      <a href="index.html" id="logo-container" class="brand-logo">DSP</a>
+
+        <!-- links -->
+      <ul class="right hide-on-med-and-down">
+          <li><a href="recorder.html"><i class="material-icons">keyboard_voice</i></a></li>
+      </ul>
+
+        <!-- sidenav links -->
+      <ul id="nav-mobile" class="sidenav">
+          <li><a href="recorder.html"><i class="material-icons">keyboard_voice</i>Recorder</a></li>
+      </ul>
+
+        <!-- sidenav menu button -->
+      <a href="" data-target="nav-mobile" class="sidenav-trigger right">
+          <i class="material-icons">menu</i>
+      </a>
+    </div>
+  </nav>
+
+<div class="container">
+    <br>
+    <!--<div class="recpower">-->
+		<!--<div style="height:40px;width:300px;background:#0B1;position:relative;">-->
+			<!--<div class="recpowerx" style="width:300px;background:#999;position:absolute;"></div>-->
+			<!--<div class="recpowerl" style="padding-left:50px; line-height:40px; position: relative;"></div>-->
+		<!--</div>-->
+	<!--</div>-->
+    <div class="col s12">
+        <div style="height:300px;width:890px;border:1px solid #ccc;box-sizing: border-box;display:inline-block" class="recwave"></div>
+    </div>
+
+    <div class="row" id="prompter">
+        <div class="input-field col s2">
+            <input value="16307130000" id="student" type="text">
+            <label for="student">Student ID</label>
+        </div>
+        <div class="input-field col s2">
+            <input value="1" placeholder="int" id="number" min="1" step="1" type="number" class="validate">
+            <label for="number">No.</label>
+        </div>
+        <h4 id="word" class="col s4 red-text">数字</h4>
+        <div class="col s1">
+            <a id="start-button" onclick="start()" class="btn-floating btn-large waves-effect waves-light red"><i class="material-icons">keyboard_voice</i></a>
+        </div>
+        <div class="col s1">
+            <a id="play-button" onclick="play()" class="btn-floating btn-large waves-effect waves-light red disabled"><i class="material-icons">hearing</i></a>
+        </div>
+        <div class="col s1">
+            <a id="upload-button" onclick="upload()" class="btn-floating btn-large waves-effect waves-light red disabled"><i class="material-icons">file_download</i></a>
+        </div>
+    </div>
+
+    <audio class="recPlay" style="width:100%"></audio>
+</div>
+
+<script>
+    let words = ['数字', '语音', '语言', '识别', '中国',
+        '总工', '北京', '背景', '上海', '商行',
+        '复旦', '饭店', 'Speech', 'Speaker', 'Signal',
+        'Process', 'Print', 'Open', 'Close', 'Project'];
+
+    let downloaded = 0;
+    document.getElementById("number").onchange = changeWord;
+
+    function changeWord(){
+        let number = parseInt(document.getElementById("number").value);
+        if (number < 1 || number > 400) {
+            d3.select("#word").text("");
+        }
+        else {
+            d3.select("#word").text(words[(number - 1) % 20]);
+        }
+    }
+
+    function start()
+    {
+        document.getElementById("start-button").className = "btn-floating btn-large waves-effect waves-light red disabled";
+        document.getElementById("play-button").className = "btn-floating btn-large waves-effect waves-light red disabled";
+        document.getElementById("upload-button").className = "btn-floating btn-large waves-effect waves-light red disabled";
+        recstart();
+        downloaded = 0;
+    }
+
+    function play()
+    {
+        recplay(1);
+        document.getElementById("upload-button").className = "btn-floating btn-large waves-effect waves-light red";
+    }
+
+    function upload()
+    {
+        recdown(1);
+        if (!downloaded) {
+            downloaded = 1;
+            document.getElementById("number").value = parseInt(document.getElementById("number").value) + 1;
+            changeWord();
+        }
+    }
+
+    // compatible browser?
+    M.toast({html: Recorder.Support()?"Compatible browser":"Please use another browser!", classes: 'rounded'});
+
+    var rec;
+    recopen();
+    function recopen(){
+        var type="wav";
+        var bit=16;
+        var sample=16000;
+        var wave;
+        var waveSet = true;
+        rec=Recorder({
+            type:type
+            ,bitRate:bit
+            ,sampleRate:sample
+            ,onProcess:function(buffers,level,time,sampleRate){
+                $(".recpowerx").css("height",40-level+"%");
+                $(".recpowert").html(time);
+                $(".recpowerl").html(level);
+
+                waveSet && wave.input(buffers[buffers.length-1],level,sampleRate);
+            }
+        });
+        rec.open(function(){
+            wave=Recorder.WaveView({elem:".recwave"});
+        },function(e,isUserNotAllow){
+            M.toast({html: "Recording is not allowed!", classes: 'rounded'});
+        });
+    }
+
+    function recstart(){
+        if(rec){
+            rec.start();
+        }
+        setTimeout(function(){
+            recstop();
+            document.getElementById("start-button").className = "btn-floating btn-large waves-effect waves-light red";
+            document.getElementById("play-button").className = "btn-floating btn-large waves-effect waves-light red";
+        }, 2100)
+    }
+
+    var recblob={};
+    function recstop(batCall){
+        if(rec){
+            if(!batCall){
+            }
+            rec.stop(function(blob,time){
+                var id=1;
+                recblob[id]={blob:blob,set:$.extend({},rec.set),time:time};
+                batCall&&batCall();
+            },function(s){
+                batCall&&batCall();
+            });
+        }
+    }
+
+    function print_number(num){
+        num = parseInt(num);
+        return (num < 10) ? ('0'+num.toString()): num.toString();
+    }
+
+    function recplay(key){
+        var o=recblob[key];
+        if(o){
+            var audio=$(".recPlay")[0];
+            audio.controls=true;
+            if(!(audio.ended || audio.paused)){
+                audio.pause();
+            }
+            o.play=(o.play||0)+1;
+
+            var end=function(blob){
+                audio.src=URL.createObjectURL(blob);
+                audio.play();
+            };
+            var wav=Recorder[o.set.type+"2wav"];
+            if(wav){
+                logmsg("正在转码成wav...");
+                wav(o.blob,function(blob){
+                    end(blob);
+                    logmsg("已转码成wav播放");
+                },function(msg){
+                    logmsg("转码成wav失败："+msg);
+                });
+            }else{
+                end(o.blob);
+            }
+        }
+    }
+
+    function recdown(key){
+        var o=recblob[key];
+        if(o){
+            var cls=1;
+            let temp_number = parseInt(document.getElementById("number").value) - 1;
+            let name= document.getElementById("student").value+'-'+ print_number(temp_number % 20)+'-'+print_number(temp_number / 20);
+            o.down=(o.down||0)+1;
+            var downA=document.createElement("A");
+            downA.href=URL.createObjectURL(o.blob);
+            downA.download=name+".wav";
+            $("."+cls).prepend(downA);
+            downA.click();
+        }
+    }
+
+    // function recdown64(key){
+    //     var o=recblob[key];
+    //
+    //     var reader = new FileReader();
+    //
+    //     reader.onloadend = function() {
+    //         var id=1;
+    //         console.log(reader.result);
+    //
+    //     };
+    //     reader.readAsDataURL(o.blob);
+    // }
+</script>
+
+</body>
+</html>
