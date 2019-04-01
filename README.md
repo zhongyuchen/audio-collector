@@ -33,18 +33,25 @@ Audio collecting website for building a dataset for Digital Signal Processing co
 
 https://czhongyu.github.io/audio-collector/
 
+* It works best with full screen!
+* Check the __toast__ appearing at the upper-right corner
+    + if it's `Compatible browser` means the current browser is good to go!
+    + if it's `Please use another browser!` means the browser isn't compatible!
+    + Chrome is recommended
+* Remember to allow recording, otherwise the start button will remain disabled!
 * Input your student ID and the `number`
     + the prompt word should change as well
     + `round = number / 20 + 1`, all 20 words will be recorded once in each round and there are 20 rounds
     + `label = number % 20`, the 20 words are labeled from `00` to `19`
 * How to record:
     + Press start button to start recording, which will end in about 2 seconds
+    + Say the prompt word clearly and check if there are significant changes in __the curve__ and __the bar__
     + Confirm your recording by listening to it
     + Download your recording
-    + Repeat the above process for the 20 words
-    + Repeat the above process for 20 times, 20 words each time
+    + Repeat the above process as the `number` changes from 1 to 400 
 * check if there are 400 recordings, 20 times for each words and 20 words in total
 * submit your recordings on elearning
+* GOOD LUCK GUYS!
 
 ## Author
 
