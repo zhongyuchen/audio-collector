@@ -13,8 +13,8 @@ Audio collecting website for building a dataset for Digital Signal Processing co
 
 * Record the following 20 words 20 times each (__400 in total__)
 
-|        |    |    |    |
-| --------- | --------- | --------- | --------- |
+|           |           |           |           |                       |
+| ------ | ------ | ------ | ------- | ------- |
 | 数字    | 语音   | 语言   | 识别     | 中国    |
 | 总工    | 北京   | 背景   | 上海     | 商行    |
 | 复旦    | 饭店   | Speech | Speaker | Signal  |
