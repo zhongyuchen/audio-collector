@@ -39,7 +39,7 @@ https://czhongyu.github.io/audio-collector/
     + if it's `Compatible browser` means the current browser is good to go!
     + if it's `Please use another browser!` means the browser isn't compatible!
     + Chrome is recommended
-* Remember to allow recording, otherwise the start button will remain disabled!
+* Remember to grant access to your mic, otherwise the start button will remain disabled!
 * Input your student ID and the `number`
     + the prompt word should change as well
     + `round = number / 20 + 1`, all 20 words will be recorded once in each round and there are 20 rounds
