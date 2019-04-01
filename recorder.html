@@ -57,16 +57,16 @@
 
     <div class="row" id="prompter">
         <div class="input-field col s2">
-            <input value="16307130000" id="student" type="text">
+            <input value="" id="student" type="text">
             <label for="student">Student ID</label>
         </div>
         <div class="input-field col s2">
-            <input value="1" placeholder="int" id="number" min="1" step="1" type="number" class="validate">
+            <input value="1" placeholder="int" id="number" min="1" max="401" step="1" type="number" class="validate">
             <label for="number">No.</label>
         </div>
-        <h4 id="word" class="col s4 red-text">数字</h4>
+        <h4 id="word" class="col s4 red-text">第1轮00: 数字</h4>
         <div class="col s1">
-            <a id="start-button" onclick="start()" class="btn-floating btn-large waves-effect waves-light red"><i class="material-icons">keyboard_voice</i></a>
+            <a id="start-button" onclick="start()" class="btn-floating btn-large waves-effect waves-light red disabled"><i class="material-icons">keyboard_voice</i></a>
         </div>
         <div class="col s1">
             <a id="play-button" onclick="play()" class="btn-floating btn-large waves-effect waves-light red disabled"><i class="material-icons">hearing</i></a>
@@ -88,13 +88,24 @@
     let downloaded = 0;
     document.getElementById("number").onchange = changeWord;
 
+    function idValid(){
+        if (document.getElementById("student").value === ""){
+            alert("Please input your student ID!");
+            return false;
+        }
+        return true;
+    }
+
     function changeWord(){
         let number = parseInt(document.getElementById("number").value);
         if (number < 1 || number > 400) {
-            d3.select("#word").text("");
+            d3.select("#word").text("Out of bound!");
+            document.getElementById("start-button").className = "btn-floating btn-large waves-effect waves-light red disabled";
         }
         else {
-            d3.select("#word").text(words[(number - 1) % 20]);
+            let temp_number = parseInt(document.getElementById("number").value) - 1;
+            d3.select("#word").text("第"+parseInt(temp_number / 20 + 1)+"轮"+print_number(temp_number % 20)+": "+words[(number - 1) % 20]);
+            document.getElementById("start-button").className = "btn-floating btn-large waves-effect waves-light red";
         }
     }
 
@@ -115,9 +126,14 @@
 
     function upload()
     {
+        if (!idValid()){
+            return;
+        }
         recdown(1);
         if (!downloaded) {
             downloaded = 1;
+            document.getElementById("play-button").className = "btn-floating btn-large waves-effect waves-light red disabled";
+            document.getElementById("upload-button").className = "btn-floating btn-large waves-effect waves-light red disabled";
             document.getElementById("number").value = parseInt(document.getElementById("number").value) + 1;
             changeWord();
         }
@@ -148,6 +164,7 @@
         });
         rec.open(function(){
             wave=Recorder.WaveView({elem:".recwave"});
+            document.getElementById("start-button").className = "btn-floating btn-large waves-effect waves-light red";
         },function(e,isUserNotAllow){
             M.toast({html: "Recording is not allowed!", classes: 'rounded'});
         });
@@ -218,7 +235,7 @@
         if(o){
             var cls=1;
             let temp_number = parseInt(document.getElementById("number").value) - 1;
-            let name= document.getElementById("student").value+'-'+ print_number(temp_number % 20)+'-'+print_number(temp_number / 20);
+            let name= document.getElementById("student").value+'-'+ print_number(temp_number % 20)+'-'+print_number((temp_number + 20) / 20);
             o.down=(o.down||0)+1;
             var downA=document.createElement("A");
             downA.href=URL.createObjectURL(o.blob);
