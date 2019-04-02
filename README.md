@@ -24,11 +24,12 @@ Audio collecting website for building a dataset for Digital Signal Processing co
 ## Parameters
 
 * File format: `.wav`
-* Sampling rate: 16kHz
+* Sampling rate: 16 kHz
+* Bit rate: 256 kbps
 * Length: about 2 seconds
 * Encoding: PCM (Uncompressed audio)
-    + check `formatTag`, `0001` at 0xC~0xD, which stands for PCM format
-    + also, it's little endian!
+    + the `formatTag` at 0xC~0xD is `0001`, which stands for PCM format
+    + when you are looking at its encoding, keep in mind that it's little endian!
 
 ## Usage
 
