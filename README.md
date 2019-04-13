@@ -9,6 +9,8 @@
 
 Audio collecting website for building a dataset for Digital Signal Processing course project
 
+![screen shot](static/image/record.png)
+
 ## Words
 
 Record the following 20 words from label `00` to `19` for 20 times.
@@ -36,6 +38,7 @@ While doing so, keep in mind that it's __little-endian__ format!
 
 https://czhongyu.github.io/audio-collector/
 
+* __wave curve__ shows the wave pattern of your last recording
 * __Bezier curve__ visually shows the volume of what the mic captures
 * __volume bar__ shows the volume with its value (0 ~ 100) and a green bar
 * __Student ID input field__ input your ID here
@@ -46,6 +49,11 @@ https://czhongyu.github.io/audio-collector/
 * __mic button__ starts recording
 * __ear button__ plays back the recording
 * __download button__ downloads the recording
+
+## Browser Compatibility
+
+* It works on __Google Chrome__, __360 Secure Browser__ and __Microsoft Edge__.
+* It does NOT work on __Safari__ and __Internet Explorer__!
 
 ## Usage
 
@@ -59,7 +67,7 @@ https://czhongyu.github.io/audio-collector/
 
 ## Attention
 
-* It works best with full screen!
+* It works best with full screen as the charts are not adaptive!
 * If the browser is not compatible, you will be alerted and please use another browser!
 * If access to your mic is blocked, the start button will remain disabled and you will also be alerted!
 * If you click __download button__ with no ID input, download will fail and you will also be alerted!
