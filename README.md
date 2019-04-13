@@ -52,8 +52,8 @@ https://czhongyu.github.io/audio-collector/
 
 ## Browser Compatibility
 
-* It works on __Google Chrome__, __360 Secure Browser__ and __Microsoft Edge__.
-* It does NOT work on __Safari__ and __Internet Explorer__!
+* It works on __Google Chrome__, __360 Secure Browser__.
+* It does NOT work on __Safari__, __Microsoft Edge__ and __Internet Explorer__!
 
 ## Usage
 
