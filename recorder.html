@@ -11,14 +11,14 @@
     <script type="text/javascript" src="static/js/jquery-3.3.1.min.js"></script>
     <script type="text/javascript" src="static/js/init.js"></script>
     <script type="text/javascript" src="static/js/materialize.min.js"></script>
+    <script type="text/javascript" src="static/js/recorder-core.js"></script>
+    <script type="text/javascript" src="static/js/waveview.js"></script>
+    <script type="text/javascript" src="static/js/wav.js"></script>
+    <script type="text/javascript" src="static/js/d3.min.js"></script>
 
     <link type="text/css" href="static/css/materialize.min.css" rel="stylesheet" media="screen,projection"/>
     <link type="text/css" href="static/css/style.css" rel="stylesheet" media="screen,projection"/>
-
-    <script src="static/js/recorder-core.js"></script>
-    <script src="static/js/waveview.js"></script>
-    <script src="static/js/wav.js"></script>
-    <script src="static/js/d3.min.js"></script>
+    <link type="text/css" href="static/css/linechart.css" rel="stylesheet"/>
 </head>
 <body>
   <nav class="teal lighten-3" role="navigation">
@@ -58,6 +58,8 @@
 	    </div>
     </div>
 
+    <!--<div class="row" id="wave-canvas"></div>-->
+
     <div class="row" id="prompter">
         <div class="input-field col s2">
             <input value="" id="student" type="text">
@@ -83,17 +85,26 @@
 </div>
 
 <script>
+    // compatible browser?
+    if (Recorder.Support()){
+        M.toast({html: "Compatible browser", classes: 'rounded'});
+    } else {
+        alert("Please use another browser! This browser is not compatible!");
+    }
+
     let words = ['数字', '语音', '语言', '识别', '中国',
         '总工', '北京', '背景', '上海', '商行',
         '复旦', '饭店', 'Speech', 'Speaker', 'Signal',
         'Process', 'Print', 'Open', 'Close', 'Project'];
+
+    var lineNumber = 1;
 
     let downloaded = 0;
     document.getElementById("number").onchange = changeWord;
 
     function idValid(){
         if (document.getElementById("student").value === ""){
-            alert("Please input your student ID!");
+            alert("Please input your student ID! Download failed!");
             return false;
         }
         return true;
@@ -142,9 +153,6 @@
         }
     }
 
-    // compatible browser?
-    M.toast({html: Recorder.Support()?"Compatible browser":"Please use another browser!", classes: 'rounded'});
-
     var rec;
     recopen();
     function recopen(){
@@ -169,7 +177,7 @@
             wave=Recorder.WaveView({elem:".recwave"});
             document.getElementById("start-button").className = "btn-floating btn-large waves-effect waves-light red";
         },function(e,isUserNotAllow){
-            M.toast({html: "Recording is not allowed!", classes: 'rounded'});
+            alert("Recording is not allowed! Please grant access!");
         });
     }
 
@@ -181,6 +189,12 @@
             recstop();
             document.getElementById("start-button").className = "btn-floating btn-large waves-effect waves-light red";
             document.getElementById("play-button").className = "btn-floating btn-large waves-effect waves-light red";
+            // update wave
+            let buffer = [];
+            for (let i = 0; i < rec.buffer.length; i++)
+                for (let j = 0; j < rec.buffer[i].length; j++)
+                    buffer.push(rec.buffer[i][j]);
+            render(transformData(buffer));
         }, 2100)
     }
 
@@ -220,12 +234,12 @@
             };
             var wav=Recorder[o.set.type+"2wav"];
             if(wav){
-                logmsg("正在转码成wav...");
+                // logmsg("正在转码成wav...");
                 wav(o.blob,function(blob){
                     end(blob);
-                    logmsg("已转码成wav播放");
+                    // logmsg("已转码成wav播放");
                 },function(msg){
-                    logmsg("转码成wav失败："+msg);
+                    // logmsg("转码成wav失败："+msg);
                 });
             }else{
                 end(o.blob);
@@ -248,18 +262,130 @@
         }
     }
 
-    // function recdown64(key){
-    //     var o=recblob[key];
-    //
-    //     var reader = new FileReader();
-    //
-    //     reader.onloadend = function() {
-    //         var id=1;
-    //         console.log(reader.result);
-    //
-    //     };
-    //     reader.readAsDataURL(o.blob);
-    // }
+/*
+    function recdown64(key){
+        var o=recblob[key];
+
+        var reader = new FileReader();
+
+        reader.onloadend = function() {
+            var id=1;
+            console.log(reader.result);
+
+        };
+        reader.readAsDataURL(o.blob);
+    }
+*/
+
+    // wave
+    const width = 960;
+    const height = 500;
+
+    const margin = {top: 20, right: 20, bottom: 20, left: 50};
+
+    const xScale = d3.scaleLinear()
+      .range([0, width - margin.left - margin.right]);
+
+    const yScale = d3.scaleLinear()
+      .range([height - margin.top - margin.bottom, 0]);
+
+    const line = d3.line()
+      .x(d => xScale(d.x))
+      .y(d => yScale(d.y))
+      .curve(d3.curveMonotoneX);
+
+    const svg = d3.select("#wave-canvas").append("svg")
+      .attr("height", height).attr("width", width)
+      .append("g")
+        .attr("transform", `translate(${margin.left}, ${margin.right})`);
+
+    // initial page render
+    var random_buffer = d3.range(lineNumber).map(() =>
+        d3.range(1000).map((item, index) =>
+          ({x: index, y: (Math.random()-0.5)*40000})
+        )
+      );
+    render(random_buffer);
+
+    function render(data){
+      // obtain absolute min and max
+      const yMin = data.reduce((pv,cv) => {
+        const currentMin = cv.reduce((pv,cv) => Math.min(pv,cv.y), 100);
+        return Math.min(pv, currentMin);
+      }, 100);
+      const yMax = data.reduce((pv,cv) => {
+        const currentMax = cv.reduce((pv,cv) => Math.max(pv,cv.y), 0);
+        return Math.max(pv, currentMax);
+      }, 0);
+
+      const xMin = data.reduce((pv,cv) => {
+        const currentMin = cv.reduce((pv,cv) => Math.min(pv,cv.x), 100);
+        return Math.min(pv, currentMin);
+      }, 100);
+      const xMax = data.reduce((pv,cv) => {
+        const currentMax = cv.reduce((pv,cv) => Math.max(pv,cv.x), 0);
+        return Math.max(pv, currentMax);
+      }, 0);
+
+      // set domain for axis
+        xScale.domain([xMin, xMax]);
+        let yRange = Math.max(-yMin, yMax, 20000);
+      yScale.domain([-yRange, yRange]);
+
+      // create axis scale
+        const yAxis = d3.axisLeft().scale(yScale);
+        const xAxis = d3.axisBottom().scale(xScale);
+
+      // if no axis exists, create one, otherwise update it
+      if (svg.selectAll(".y.axis").empty()){
+        svg.append("g")
+            .attr("class","y axis")
+            .call(yAxis);
+      } else {
+        svg.selectAll(".y.axis")
+          // .transition().duration(1500)
+          .call(yAxis);
+      }
+      if (svg.selectAll(".x.axis").empty()){
+        svg.append("g")
+            .attr("class","x axis")
+            .attr("transform", `translate(${0}, ${height - margin.top - margin.bottom})`)
+            .call(xAxis);
+      } else {
+        svg.selectAll(".x.axis")
+          // .transition().duration(1500)
+          .call(xAxis);
+      }
+
+      // generate line paths
+        const lines = svg.selectAll(".line")
+        .data(data)
+            .attr("class", "line");
+
+      // exit
+      lines.exit()
+        .remove();
+
+      // enter any new data
+      lines.enter()
+        .append("path")
+          .attr("class", "line")
+          .attr("d", line)
+          .style("stroke", "#386cb0")
+        // Update new data
+        .merge(lines)
+          // .transition().duration(1500)
+          .attr("d", line)
+          .style("stroke", "#386cb0");
+    }
+
+    function transformData(buffer) {
+      return d3.range(lineNumber).map(() =>
+        d3.range(buffer.length).map((item, index) =>
+          ({x: index, y: buffer[item]})
+        )
+      );
+    }
 </script>
 
 </body>

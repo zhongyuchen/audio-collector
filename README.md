@@ -11,7 +11,7 @@ Audio collecting website for building a dataset for Digital Signal Processing co
 
 ## Words
 
-Record the following 20 words 20 times each, __400 in total__.
+Record the following 20 words from label `00` to `19` for 20 times.
 
 |  00    |   01  |    02  |   03  |    04    |    05 |   06   |  07   |    08  |    09    |
 | ------ | ------ | ------ | ------- | ------- |------ | ------ | ------ | ------- | ------- |
@@ -30,35 +30,40 @@ Record the following 20 words 20 times each, __400 in total__.
 These are the important parameters regarding the audio files. 
 If you'd like to get more information about the audio files, 
 you can look closely at the header of the files.
-While doing so, keep in mind that it's in __little-endian__ format!
+While doing so, keep in mind that it's __little-endian__ format!
 
-## Usage
+## Website
 
 https://czhongyu.github.io/audio-collector/
 
-* Check the __toast__ appearing at the upper-right corner
-    + `Compatible browser` means the current browser is good to go!
-    + `Please use another browser!` means the browser isn't compatible and Chrome is recommended!
-* Allow the browser to access your mic
-    + otherwise the start button will remain disabled!
-* Input your student ID and the `number`
-    + the prompt word should change as well
-    + `round = number / 20 + 1`, all 20 words will be recorded once in each round and there are 20 rounds in total
-    + `label = number % 20`, the 20 words are labeled from `00` to `19`
-* How to record:
-    + Click the `mic` button to start recording, which will automatically end in about 2 seconds
-    + Say the prompt word clearly and check if there are significant changes in __the curve__ and __the bar__
-    + Click the `ear` button to confirm your recording by listening to it
-    + Click the `download` button to download your recording 
-    + Repeat the above process as the `number` changes from 1 to 400 
-* check if there are 400 correctly named recordings, 20 files for each word and 20 words in total
-* submit your recordings on [elearning](http://elearning.fudan.edu.cn/portal)
+* __Bezier curve__ visually shows the volume of what the mic captures
+* __volume bar__ shows the volume with its value (0 ~ 100) and a green bar
+* __Student ID input field__ input your ID here
+* __No. input field__ input a `number` (1 ~ 400) here
+* __round__ (1 ~ 20) `round = number / 20 + 1`
+* __label__ (00 ~ 19) `label = number % 20`
+* __prompt word__ will change as the label changes
+* __mic button__ starts recording
+* __ear button__ plays back the recording
+* __download button__ downloads the recording
 
-### Attention
+## Usage
+
+* Visit the above website and enter the recording page
+* Input your student ID and the `number`
+* Click __mic button__ to start recording and say the prompt word clearly in 2 seconds
+* Click __ear button__ to confirm your recording
+* Click __download button__ to download your recording 
+* Repeat the above process as the `number` changes from 1 to 400 
+* Check if there are 20 x 20 correctly named recordings
+
+## Attention
 
 * It works best with full screen!
+* If the browser is not compatible, you will be alerted and please use another browser!
+* If access to your mic is blocked, the start button will remain disabled and you will also be alerted!
+* If you click __download button__ with no ID input, download will fail and you will also be alerted!
 * Remember to enable the mic as well!
-* GOOD LUCK GUYS!
 
 ## Author
 
