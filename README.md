@@ -63,7 +63,7 @@ https://czhongyu.github.io/audio-collector/
 * Click __ear button__ to confirm your recording
 * Click __download button__ to download your recording 
 * Repeat the above process as the `number` changes from 1 to 400 
-* Check if there are 20 x 20 correctly named recordings
+* Put the 20 x 20 correctly named recordings in a folder named after your student ID
 
 ## Attention
 
