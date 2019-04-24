@@ -7,13 +7,17 @@
 [![Materialize version](https://img.shields.io/badge/Materialize-1.0.0-yellow.svg)](https://materializecss.com/)
 [![Apache License](https://img.shields.io/badge/license-Apache2.0-blue.svg)](http://www.apache.org/licenses/)
 
-Audio collecting website for building a speech dataset of 20 isolated words for Digital Signal Processing course project
+Audio collecting website for building a [speech dataset](https://github.com/czhongyu/DSPSpeech-20) of 20 isolated words for Digital Signal Processing course project
 
 ![screen shot](static/image/record.png)
 
+## Dataset
+
+The speech dataset collected by this website is on https://github.com/czhongyu/DSPSpeech-20
+
 ## Vocabulary
 
-Record the following 20 words from label `00` to `19` for 20 times.
+Each individual is required to record the following 20 words 20 times each word.
 
 |  00    |   01  |    02  |   03  |    04    |    05 |   06   |  07   |    08  |    09    |
 | ------ | ------ | ------ | ------- | ------- |------ | ------ | ------ | ------- | ------- |
