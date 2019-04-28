@@ -7,7 +7,7 @@
 [![Materialize version](https://img.shields.io/badge/Materialize-1.0.0-yellow.svg)](https://materializecss.com/)
 [![Apache License](https://img.shields.io/badge/license-Apache2.0-blue.svg)](http://www.apache.org/licenses/)
 
-Audio collecting website for building a [speech dataset](https://github.com/czhongyu/DSPSpeech-20) of 20 isolated words for Digital Signal Processing course project
+Audio collecting website for building a __speech dataset__ of 20 isolated words for _Digital Signal Processing Spring 2019_ course project
 
 ![screen shot](static/image/record.png)
 
