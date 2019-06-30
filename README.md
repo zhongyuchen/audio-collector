@@ -13,7 +13,11 @@ Audio collecting website for building a __speech dataset__ of 20 isolated words 
 
 ## Dataset
 
-The speech dataset collected by this website is on https://github.com/czhongyu/DSPSpeech-20
+The speech dataset collected by this website is on https://github.com/czhongyu/DSPSpeech-20. 
+
+## Dataset Application
+
+* [speech-classification](https://github.com/czhongyu/speech-classification): CNN and VGG speech classification with interactive website for testing
 
 ## Vocabulary
 
