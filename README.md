@@ -13,11 +13,11 @@ Audio collecting website for building a __speech dataset__ of 20 isolated words 
 
 ## Dataset
 
-The speech dataset collected by this website is on https://github.com/zychn/DSPSpeech-20. 
+The speech dataset collected by this website is on https://github.com/zhongyuchen/DSPSpeech-20. 
 
 ## Dataset Application
 
-* [speech-classification](https://github.com/zychn/speech-classification): CNN and VGG speech classification with interactive website for testing
+* [speech-classification](https://github.com/zhongyuchen/speech-classification): CNN and VGG speech classification with interactive website for testing
 
 ## Vocabulary
 
@@ -44,7 +44,7 @@ While doing so, keep in mind that it's __little-endian__ format!
 
 ## Website
 
-https://zychn.github.io/audio-collector/
+https://zhongyuchen.github.io/audio-collector/
 
 * __wave curve__ shows the wave pattern of your last recording
 * __Bezier curve__ visually shows the volume of what the mic captures
